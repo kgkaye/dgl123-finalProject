@@ -35,49 +35,36 @@
                             <form method="get">
 
                                 <ul class="form__items">
-                                                                                <li class="form__item">
+                                    <li class="form__item">
+                                        <label for="homer">Homer Simpson</label>                                         
+                                        <input id="homer" type="checkbox" name="homer">                                
+                                    </li>
 
-                                            <label for="homer">
-                                                Homer Simpson                                                </label>
-
-                                            <input id="homer" type="checkbox" name="homer">                                
-                                        </li>
-                                                                                <li class="form__item">
-
-                                            <label for="marge">
-                                                Marge Simpson                                                </label>
-
+                                    <li class="form__item">
+                                        <label for="marge">Marge Simpson</label>                                                                                           
                                             <input id="marge" type="checkbox" name="marge">                                
-                                        </li>
-                                                                                <li class="form__item">
+                                    </li>
 
-                                            <label for="bart">
-                                                Bart Simpson                                                </label>
-
+                                    <li class="form__item">
+                                        <label for="bart">Bart Simpson</label>                                                                                            
                                             <input id="bart" type="checkbox" name="bart">                                
-                                        </li>
-                                                                                <li class="form__item">
+                                    </li>
 
-                                            <label for="lisa">
-                                                Lisa Simpson                                                </label>
-
+                                    <li class="form__item">
+                                        <label for="lisa">Lisa Simpson</label>                                                                                              
                                             <input id="lisa" type="checkbox" name="lisa">                                
-                                        </li>
-                                                                                <li class="form__item">
-
-                                            <label for="maggie">
-                                                Maggie Simpson                                                </label>
-
+                                    </li>
+                                    
+                                    <li class="form__item">
+                                        <label for="maggie">Maggie Simpson</label>                                                                                               
                                             <input id="maggie" type="checkbox" name="maggie">                                
-                                        </li>
-                                                                                <li class="form__item">
+                                    </li>
 
-                                            <label for="moe">
-                                                Moe Szyslak                                                </label>
-
+                                    <li class="form__item">
+                                        <label for="moe">Moe Szyslak</label>                                                                                                
                                             <input id="moe" type="checkbox" name="moe">                                
-                                        </li>
-                                                                        </ul>
+                                    </li>
+                                </ul>
 
                                 <input class="form__button" type="submit" value="Show Characters">
 
@@ -92,20 +79,46 @@
             <div class="characters__container layout-container">
                 <div class="characters__row layout-row">
                     <ul class="characters__items">
-                                                                                                                                                                                                                                                                                                                                                                                                                        </ul>
+                        <li class="characters__itemContainer">
+                            <div class="characters__item">
+                                        
+                                <img src="images/homer.png" alt="homer" class="characters__image">
+                                        
+                                <div class="characters__info">
+
+                                        <h3 class="characters__name">Homer Simpson</h3>                                                                                                    
+                                    <div class="characters__age characters__attribute">
+                                        <b>Age:</b> 40                                                
+                                    </div>
+
+                                    <div class="characters__occupation characters__attribute">
+                                        <b>Occupation:</b>  Nuclear Safety Inspector                                                                                                        
+                                    </div>
+                                    <div class="characters__voicedBy characters__attribute">
+                                        <b>Voiced by:</b> Dan Castellaneta                                                                                                        
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </li>
+                                                                                                                                                                                                                                                                                                                                            
+                    </ul>
                 </div>
-            </div>
+                </div>
 
         </div>
     </div>
 </div>
 <?php
 
-require('characters.json');
+// include('characters.json');
+$jsondata = file_get_contents('characters.json');
+$simpsons = json_decode($jsondata, true);
+// $characters = include('characters.json');
+// $simpsons = json_decode($characters, true);
 
-$characters = 'characters.json';
-$simpsons = json_decode($characters);
-// var_dump($simpsons);
+print_r($simpsons);
 
 ?>
 </body>
