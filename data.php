@@ -1,44 +1,28 @@
 <?php
-$conn = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
-// $name = $_POST['name'];
 
-//https://www.geeksforgeeks.org/how-to-insert-json-data-into-mysql-database-using-php/
-$query = '';
-$table_data = '';
+//connect and select
+$dbc = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
-// json file name
-$filename = "characters.json";
+//define query
+$query = 'SELECT * FROM characters';
 
-// Read the JSON file in PHP
-$data = file_get_contents($filename); 
+if ($r = mysqli_query($dbc, $query)) { //run the query
 
-// Convert the JSON String into PHP Array
-$array = json_decode($data, true); 
-
-// Extracting row by row
-foreach($array as $row) {
-
-    // Database query to insert data 
-    // into database Make Multiple 
-    // Insert Query 
-    $query .= 
-    "INSERT INTO characters VALUES 
-    ('".$row['name']."', '".$row['first_name']."', 
-   '".$row['last_name']."', '".$row['age']."', 
-    '".$row['occupation']."', '".$row['voiced_by']."', 
-    '".$row["image_url"]."'); "; 
-    
-    $table_data .= '
-    <tr>
-        <td>'.$row['name'].'</td>
-        <td>'.$row['first_name'].'</td>
-        <td>'.$row['last_name'].'</td>
-        <td>'.$row['age'].'</td>
-        <td>'.$row['occupation'].'</td>
-        <td>'.$row['voiced_by'].'</td>
-        <td>'.$row['image_url'].'</td>
-    </tr>
-    '; // Data for display on Web page
+    //retrieve and print every record
+    while ($row = mysqli_fetch_array($r)) {
+        print "<p>{$row['first_name']}<br>
+        {$row['last_name']}<br>
+        {$row['age']}<br>
+        {$row['occupation']}<br>
+        {$row['voiced_by']}<br>
+        {$row['image_url']}</p>\n";
+    } 
+}else {
+    print '<p> could not retrieve data because:<br>' . mysql_error($dbc) . ' . </p>
+    <p> The query was being run was: ' . $query . '</p>';
 }
+mysqli_close($dbc); //close connection
+
+
 
 ?>
