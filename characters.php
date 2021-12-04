@@ -24,11 +24,8 @@
                             <img src="images/simpsons.jpeg" alt="Simpsons" class="form__image">
                         </div>
                         <div class="form__card">
-
                             <h3 class="form__heading">Select characters to show</h3>                            
-
                             <form method="get">
-
                                 <ul class="form__items">
                                     <li class="form__item">
                                         <label for="homer">Homer Simpson</label>                                         
@@ -62,7 +59,6 @@
                                 </ul>
 
                                 <input class="form__button" type="submit" value="Show Characters">
-
                             </form>
                         </div>
                     </div>
@@ -78,51 +74,62 @@
     //connect and select
     $dbc = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
-    //define query
-    $query = 'SELECT * FROM characters WHERE occupation IS NOT NULL';
+   
+  
 
-    if ($r = mysqli_query($dbc, $query)) { //run the query
 
-        //retrieve and print every record
-    
-        while ($row = mysqli_fetch_array($r)) {     
-    ?>
+    $list = $_GET['id'] ?? null;    
 
-                <li class="characters__itemContainer">
-                    <div class="characters__item">                                
-                        <img src="<?= $row['image_url'] ?>" alt="<?= $row['id'] ?>" class="characters__image">
-                        <div class="characters__info">
-                                <h3 class="characters__name"><?= $row['first_name'] . ' ' . $row['last_name'] ?></h3> 
-                            <div class="characters__age characters__attribute">                          
-                                <b>Age:</b> <?= $row['age'] ?>                                                
-                            </div>
-                            <div class="characters__occupation characters__attribute">
-                                <b>Occupation:</b> <?= $row['occupation'] ?>                                                                                                        
-                            </div>
-                            <div class="characters__voicedBy characters__attribute">
-                                <b>Voiced by:</b> <?= $row['voiced_by'] ?>                                                                                                        
-                            </div>
-                        </div>
-                    </div>
-                </li>                                                                                                                                                                                                                                                                                                                                            
-
-    <?php
-        } 
-    }else {
-        print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
-        <p> The query was being run was: ' . $query . '</p>';
+    foreach ($list as $value) {
+       print $value['id'];
     }
-    mysqli_close($dbc); //close connection
+//     //define query
+//     $query = 'SELECT * FROM characters WHERE occupation IS NOT NULL';
 
-    ?>
+//     if ($r = mysqli_query($dbc, $query)) { //run the query
 
-                    </ul> 
-                </div> 
 
-            </div> <!--end characters-container-->
-        </div> <!--end site-main-->
-    </div> <!--end content-area-->
-</div> <!--end site-content-->
+ 
+    
+//         while ($row = mysqli_fetch_array($r)) {     
+//     ?>
+
+//                     <li class="characters__itemContainer">
+//                         <div class="characters__item">                                
+//                             <img src="<?= $row['image_url'] ?>" alt="<?= $row['id'] ?>" class="characters__image">
+//                             <div class="characters__info">
+//                                     <h3 class="characters__name"><?= $row['first_name'] . ' ' . $row['last_name'] ?></h3> 
+//                                 <div class="characters__age characters__attribute">                          
+//                                     <b>Age:</b> <?= $row['age'] ?>                                                
+//                                 </div>
+//                                 <div class="characters__occupation characters__attribute">
+//                                     <b>Occupation:</b> <?= $row['occupation'] ?>                                                                                                        
+//                                 </div>
+//                                 <div class="characters__voicedBy characters__attribute">
+//                                     <b>Voiced by:</b> <?= $row['voiced_by'] ?>                                                                                                        
+//                                 </div>
+//                             </div>
+//                         </div>
+//                     </li>                                                                                                                                                                                                                                                                                                                                            
+
+//     <?php
+//         } 
+    
+//     }else {
+//         print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
+//         <p> The query was being run was: ' . $query . '</p>';
+//     }
+//     mysqli_close($dbc); //close connection
+
+//     ?>
+
+//                     </ul> 
+//                 </div> 
+
+//             </div> <!--end characters-container-->
+//         </div> <!--end site-main-->
+//     </div> <!--end content-area-->
+// </div> <!--end site-content-->
 <?php
 
 ?>

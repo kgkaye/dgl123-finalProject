@@ -27,8 +27,8 @@
 
     if ($r = mysqli_query($dbc, $query)) { //run the query
 
+
         //retrieve and print every record
-    
         while ($row = mysqli_fetch_array($r)) {     
     ?>
 
