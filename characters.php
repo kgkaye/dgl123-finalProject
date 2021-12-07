@@ -26,35 +26,35 @@
                         <div class="form__card">
                             <h3 class="form__heading">Select characters to show</h3>                            
                             <form method="get">
-                                <ul class="form__items">
+                            <ul class="form__items">
                                     <li class="form__item">
                                         <label for="homer">Homer Simpson</label>                                         
-                                        <input id="homer" type="checkbox" name="homer">                                
+                                        <input id="homer" type="checkbox" name="character[homer]">                                
                                     </li>
 
                                     <li class="form__item">
                                         <label for="marge">Marge Simpson</label>                                                                                           
-                                            <input id="marge" type="checkbox" name="marge">                                
+                                            <input id="marge" type="checkbox" name="character[marge]">                                
                                     </li>
 
                                     <li class="form__item">
                                         <label for="bart">Bart Simpson</label>                                                                                            
-                                            <input id="bart" type="checkbox" name="bart">                                
+                                            <input id="bart" type="checkbox" name="character[bart]">                                
                                     </li>
 
                                     <li class="form__item">
                                         <label for="lisa">Lisa Simpson</label>                                                                                              
-                                            <input id="lisa" type="checkbox" name="lisa">                                
+                                            <input id="lisa" type="checkbox" name="character[lisa]">                                
                                     </li>
                                     
                                     <li class="form__item">
                                         <label for="maggie">Maggie Simpson</label>                                                                                               
-                                            <input id="maggie" type="checkbox" name="maggie">                                
+                                            <input id="maggie" type="checkbox" name="character[maggie]">                                
                                     </li>
 
                                     <li class="form__item">
                                         <label for="moe">Moe Szyslak</label>                                                                                                
-                                            <input id="moe" type="checkbox" name="moe">                                
+                                            <input id="moe" type="checkbox" name="character[moe]">                                
                                     </li>
                                 </ul>
 
@@ -74,62 +74,68 @@
     //connect and select
     $dbc = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
-   
-  
+    //get checkbox 
+    $selected = $_GET['character'] ?? null;
+
+if (isset($selected)) {
+    
+ foreach ($selected as $key => $value) {
+     print $key;
+     print '<br>';
+     print $value;
+     print '<br>';
+ }
+    
+};
 
 
-    $list = $_GET['id'] ?? null;    
 
-    foreach ($list as $value) {
-       print $value['id'];
+    //define query
+    $query = 'SELECT * FROM characters';
+
+    if ($r = mysqli_query($dbc, $query)) { //run the query
+
+        while ($row = mysqli_fetch_array($r)) {   
+           
+    ?>
+
+                    <li class="characters__itemContainer">
+                        <div class="characters__item">                                
+                            <img src="<?= $row['image_url'] ?>" alt="<?= $row['id'] ?>" class="characters__image">
+                            <div class="characters__info">
+                                    <h3 class="characters__name"><?= $row['first_name'] . ' ' . $row['last_name'] ?></h3> 
+                                <div class="characters__age characters__attribute">                          
+                                    <b>Age:</b> <?= $row['age'] ?>                                                
+                                </div>
+                                <div class="characters__occupation characters__attribute">
+                                    <b>Occupation:</b> <?= $row['occupation'] ?>                                                                                                        
+                                </div>
+                                <div class="characters__voicedBy characters__attribute">
+                                    <b>Voiced by:</b> <?= $row['voiced_by'] ?>                                                                                                        
+                                </div>
+                            </div>
+                        </div>
+                    </li>                                                                                                                                                                                                                                                                                                                                            
+
+    <?php
+       
+        } 
+    
+    }else {
+        print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
+        <p> The query was being run was: ' . $query . '</p>';
     }
-//     //define query
-//     $query = 'SELECT * FROM characters WHERE occupation IS NOT NULL';
+    mysqli_close($dbc); //close connection
 
-//     if ($r = mysqli_query($dbc, $query)) { //run the query
+    ?>
 
+                    </ul> 
+                </div> 
 
- 
-    
-//         while ($row = mysqli_fetch_array($r)) {     
-//     ?>
-
-//                     <li class="characters__itemContainer">
-//                         <div class="characters__item">                                
-//                             <img src="<?= $row['image_url'] ?>" alt="<?= $row['id'] ?>" class="characters__image">
-//                             <div class="characters__info">
-//                                     <h3 class="characters__name"><?= $row['first_name'] . ' ' . $row['last_name'] ?></h3> 
-//                                 <div class="characters__age characters__attribute">                          
-//                                     <b>Age:</b> <?= $row['age'] ?>                                                
-//                                 </div>
-//                                 <div class="characters__occupation characters__attribute">
-//                                     <b>Occupation:</b> <?= $row['occupation'] ?>                                                                                                        
-//                                 </div>
-//                                 <div class="characters__voicedBy characters__attribute">
-//                                     <b>Voiced by:</b> <?= $row['voiced_by'] ?>                                                                                                        
-//                                 </div>
-//                             </div>
-//                         </div>
-//                     </li>                                                                                                                                                                                                                                                                                                                                            
-
-//     <?php
-//         } 
-    
-//     }else {
-//         print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
-//         <p> The query was being run was: ' . $query . '</p>';
-//     }
-//     mysqli_close($dbc); //close connection
-
-//     ?>
-
-//                     </ul> 
-//                 </div> 
-
-//             </div> <!--end characters-container-->
-//         </div> <!--end site-main-->
-//     </div> <!--end content-area-->
-// </div> <!--end site-content-->
+            </div> <!--end characters-container-->
+        </div> <!--end site-main-->
+    </div> <!--end content-area-->
+</div> <!--end site-content-->
 <?php
 
 ?>
