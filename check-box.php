@@ -89,7 +89,7 @@ if (isset($_GET['character'])) {
     } else {
         echo '0 results';
     }
-    }
+}
     
 } else {
     print 'Please click on one or more characters';

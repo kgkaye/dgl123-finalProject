@@ -25,46 +25,31 @@ $select = [
 ];
 
 foreach ($select as $value) {
-   
 
+    //database query
+    $query = 'SELECT * FROM characters';
+    $results = mysqli_query($conn, $query);
 
+    if ($results->num_rows > 0) {  
 
-// $selected = implode(',', $select);
-// echo $selected;
-//select from DB using array as ids
-
-
-$query = 'SELECT * FROM characters';
-$results = mysqli_query($conn, $query);
-
-
-
-if ($results->num_rows > 0) {
-
-    
-
-   
-        //get info
-       
-        while ($row = $results->fetch_assoc()) {
-           
-           if ($row['id'] == $value) {
-           
-
-
-                print "<p>{$row['id']}<br>
-                {$row['first_name']} {$row['last_name']}<br>
-                    {$row['age']}<br>
-                    {$row['occupation']}<br>
-                    {$row['voiced_by']}<br>
-                    {$row['image_url']}</p>\n"; 
+            while ($row = $results->fetch_assoc()) {
             
-        }
+               if ($row['id'] == $value) {
+            
+                    print "<p>{$row['id']}<br>
+                    {$row['first_name']} {$row['last_name']}<br>
+                        {$row['age']}<br>
+                        {$row['occupation']}<br>
+                        {$row['voiced_by']}<br>
+                        {$row['image_url']}</p>\n"; 
+
+                }
+
+            }
+
+    } else {
+        echo '0 results';
     }
-        
-} else {
-    echo '0results';
-}
 }
 
 
