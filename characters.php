@@ -72,32 +72,26 @@
                     <?php
 
     //connect and select
-    $dbc = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
+    $conn = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
-    //get checkbox 
-    $selected = $_GET['character'] ?? null;
+    if (isset($_GET['character'])) {
 
-if (isset($selected)) {
+        $selected = [];
+        $selected =$_GET['character'];
+        foreach ($selected as $key => $value) {
+            
     
- foreach ($selected as $key => $value) {
-     print $key;
-     print '<br>';
-     print $value;
-     print '<br>';
- }
-    
-};
-
-
-
-    //define query
-    $query = 'SELECT * FROM characters';
-
-    if ($r = mysqli_query($dbc, $query)) { //run the query
-
-        while ($row = mysqli_fetch_array($r)) {   
-           
-    ?>
+                 //database query
+            $query = 'SELECT * FROM characters';
+            $results = mysqli_query($conn, $query);
+            
+            if ($results->num_rows > 0) {  
+            
+                while ($row = $results->fetch_assoc()) {
+                
+                    if ($row['id'] == $key) {
+        
+?>
 
                     <li class="characters__itemContainer">
                         <div class="characters__item">                                
@@ -118,14 +112,20 @@ if (isset($selected)) {
                     </li>                                                                                                                                                                                                                                                                                                                                            
 
     <?php
-       
-        } 
-    
-    }else {
-        print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
-        <p> The query was being run was: ' . $query . '</p>';
-    }
-    mysqli_close($dbc); //close connection
+                    }//end if
+
+                }//end while loop
+
+            } else {
+            echo '0 results';
+            }//end if
+        }//end foreach
+
+    } else {
+    print 'Please click on one or more characters';
+    }//end if
+ 
+    mysqli_close($conn); //close connection
 
     ?>
 
