@@ -59,31 +59,40 @@ $conn = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
 
 if (isset($_GET['character'])) {
-    $charcheck = [];
-    $charcheck =$_GET['character'];
-    foreach($charcheck as $rowchar => $value) {//rowchar
-        // print $rowchar;
 
-        //NOT RECOGNIZING ROWCHAR
-        $query = 'SELECT * FROM characters WHERE id IN ($rowchar)';
-        $results = mysqli_query($conn, $query);
-        // var_dump($results);
-
-        // while ($row = mysqli_fetch_array($results)) { 
-        //     print_r($row);
-        // }
-
-        if(mysqli_num_rows($results) > 0) {
-            foreach($results as $rItems) {
-                echo 'Item found';
-                // print "{$rItems['id']}";
-            } 
-            
+    $selected = [];
+    $selected =$_GET['character'];
+    foreach ($selected as $key => $value) {
         
-        }
 
+         //database query
+    $query = 'SELECT * FROM characters';
+    $results = mysqli_query($conn, $query);
+
+    if ($results->num_rows > 0) {  
+
+            while ($row = $results->fetch_assoc()) {
+            
+               if ($row['id'] == $key) {
+            
+                    print "<p>{$row['id']}<br>
+                    {$row['first_name']} {$row['last_name']}<br>
+                        {$row['age']}<br>
+                        {$row['occupation']}<br>
+                        {$row['voiced_by']}<br>
+                        {$row['image_url']}</p>\n"; 
+
+                }
+
+            }
+
+    } else {
+        echo '0 results';
+    }
     }
     
+} else {
+    print 'Please click on one or more characters';
 }
 
 ?>
