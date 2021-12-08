@@ -18,35 +18,36 @@
     image_url VARCHAR(255)
     )";
 
-// if ($conn->query($sql) === TRUE) {
-//     echo "Table characters created successfully";
-//   } else {
+if ($conn->query($sql) === TRUE) {
+    // echo "Table characters created successfully";
+
+    // json file name
+    $filename = 'characters.json';
+
+    // Read the JSON file into array
+    $data = file_get_contents($filename); 
+    $characters = json_decode($data, true); 
+
+    //Store data in variables
+    foreach ($characters as $key => $value) {
+
+        $id = $key;
+        $first_name = $value['first_name'] ?? "";
+        $last_name = $value['last_name'] ?? "";
+        $age = $value['age'] ?? "";
+        $occupation = $value['occupation'] ?? "";
+        $voiced_by = $value['voiced_by'] ?? "";
+        $image_url = $value['image_url'] ?? "";
+    
+    //Insert variables into table
+        $sql = "INSERT into characters (id, first_name, Last_name, age, occupation, voiced_by, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->bind_param('sssisss', $id, $first_name, $last_name, $age, $occupation, $voiced_by, $image_url);
+        $statement->execute();
+    }
+} 
+// else {
 //     echo "Error creating table: " . $conn->error;
 //   }
-
-//     // json file name
-$filename = 'characters.json';
-
-// Read the JSON file into array
-$data = file_get_contents($filename); 
-$characters = json_decode($data, true); 
-
-//Store data in variables
-foreach ($characters as $key => $value) {
-         
-    $id = $key;
-    $first_name = $value['first_name'] ?? "";
-    $last_name = $value['last_name'] ?? "";
-    $age = $value['age'] ?? "";
-    $occupation = $value['occupation'] ?? "";
-    $voiced_by = $value['voiced_by'] ?? "";
-    $image_url = $value['image_url'] ?? "";
-  
-//Insert variables into table
-    $sql = "INSERT into characters (id, first_name, Last_name, age, occupation, voiced_by, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
-    $statement = $conn->prepare($sql);
-    $statement->bind_param('sssisss', $id, $first_name, $last_name, $age, $occupation, $voiced_by, $image_url);
-    $statement->execute();
-}
  
 ?>
