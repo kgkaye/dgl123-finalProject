@@ -13,55 +13,49 @@
             <img class="site-header__logo" src="images/logo.svg" alt="Logo">
         </a>
     </header>
-
-    <div class="characters__container layout-container">
-        <div class="characters__row layout-row">
-            <ul class="characters__items">
-    <?php
-
-    //connect and select
-    $dbc = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
-
-    //define query
-    $query = 'SELECT * FROM characters WHERE occupation IS NOT NULL';
-
-    if ($r = mysqli_query($dbc, $query)) { //run the query
+<?php
+$conn = mysqli_connect('localhost', 'root', '', 'test2');
 
 
-        //retrieve and print every record
-        while ($row = mysqli_fetch_array($r)) {     
-    ?>
 
-                <li class="characters__itemContainer">
-                    <div class="characters__item">                                
-                        <img src="<?= $row['image_url'] ?>" alt="<?= $row['id'] ?>" class="characters__image">
-                        <div class="characters__info">
-                                <h3 class="characters__name"><?= $row['first_name'] . ' ' . $row['last_name'] ?></h3> 
-                            <div class="characters__age characters__attribute">                          
-                                <b>Age:</b> <?= $row['age'] ?>                                                
-                            </div>
-                            <div class="characters__occupation characters__attribute">
-                                <b>Occupation:</b> <?= $row['occupation'] ?>                                                                                                        
-                            </div>
-                            <div class="characters__voicedBy characters__attribute">
-                                <b>Voiced by:</b> <?= $row['voiced_by'] ?>                                                                                                        
-                            </div>
-                        </div>
-                    </div>
-                </li>                                                                                                                                                                                                                                                                                                                                            
+    // json file name
+$filename = 'characters.json';
 
-    <?php
-        } 
-    }else {
-        print '<p> could not retrieve data because:<br>' . mysqli_error($dbc) . ' . </p>
-        <p> The query was being run was: ' . $query . '</p>';
-    }
-    mysqli_close($dbc); //close connection
+// Read the JSON file in PHP
+$data = file_get_contents($filename); 
+// Convert the JSON String into PHP Array
+$array = json_decode($data, true); 
 
-    ?>
-            </ul> 
-        </div> 
-    </div> <!--end characters-container--> 
+foreach ($array as $key => $value) {
+         
+    $id = $key;
+    $first_name = $value['first_name'] ?? "";
+    $last_name = $value['last_name'] ?? "";
+    $age = $value['age'] ?? "";
+    $occupation = $value['occupation'] ?? "";
+    $voiced_by = $value['voiced_by'] ?? "";
+    $image_url = $value['image_url'] ?? "";
+  
+
+    $sql = "INSERT into array (id, first_name, Last_name, age, occupation, voiced_by, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    $statement = $conn->prepare($sql);
+    $statement->bind_param('sssisss', $id, $first_name, $last_name, $age, $occupation, $voiced_by, $image_url);
+    $statement->execute();
+
+}
+    
+
+
+
+
+
+
+
+
+
+
+
+?>
 
 </body>
 </html>

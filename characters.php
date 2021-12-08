@@ -74,13 +74,36 @@
     //connect and select
     $conn = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
 
+//LOAD CHARACTERS INTO DATABASE
+    // json file name
+    $filename = 'characters.json';
+    // Read the JSON file in PHP
+    $data = file_get_contents($filename); 
+    // Convert the JSON String into PHP Array
+    $array = json_decode($data, true); 
+    
+    foreach ($array as $key => $value) {
+        $id = $key;
+        $first_name = $value['first_name'] ?? "";
+        $last_name = $value['last_name'] ?? "";
+        $age = $value['age'] ?? "";
+        $occupation = $value['occupation'] ?? "";
+        $voiced_by = $value['voiced_by'] ?? "";
+        $image_url = $value['image_url'] ?? "";
+      
+        $sql = "INSERT into characters (id, first_name, Last_name, age, occupation, voiced_by, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        $statement = $conn->prepare($sql);
+        $statement->bind_param('sssisss', $id, $first_name, $last_name, $age, $occupation, $voiced_by, $image_url);
+        $statement->execute();
+    }
+
+//GET USER CHECKED CHARACTERS FROM DB AND DISPLAY
     if (isset($_GET['character'])) {
 
         $selected = [];
         $selected =$_GET['character'];
         foreach ($selected as $key => $value) {
             
-    
                  //database query
             $query = 'SELECT * FROM characters';
             $results = mysqli_query($conn, $query);
@@ -90,7 +113,6 @@
                 while ($row = $results->fetch_assoc()) {
                 
                     if ($row['id'] == $key) {
-        
 ?>
 
                     <li class="characters__itemContainer">
