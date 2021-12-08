@@ -14,6 +14,7 @@
     </a>
 </header>
 
+<!-- MAIN HTML CONTENT-->
 <div id="content" class="site-content">
     <div id="primary" class="content-area">
         <div id="main" class="site-main">
@@ -69,35 +70,18 @@
                 <div class="characters__row layout-row">
                     <ul class="characters__items">
                         
-                    <?php
+<?php
 
-    //connect and select
+include 'writeTable.php';
+
+    //create connection
     $conn = mysqli_connect('localhost', 'root', '', 'simpsons_archive');
-
-//LOAD CHARACTERS INTO DATABASE
-    // json file name
-    $filename = 'characters.json';
-    // Read the JSON file in PHP
-    $data = file_get_contents($filename); 
-    // Convert the JSON String into PHP Array
-    $array = json_decode($data, true); 
-    
-    foreach ($array as $key => $value) {
-        $id = $key;
-        $first_name = $value['first_name'] ?? "";
-        $last_name = $value['last_name'] ?? "";
-        $age = $value['age'] ?? "";
-        $occupation = $value['occupation'] ?? "";
-        $voiced_by = $value['voiced_by'] ?? "";
-        $image_url = $value['image_url'] ?? "";
-      
-        $sql = "INSERT into characters (id, first_name, Last_name, age, occupation, voiced_by, image_url) VALUES (?, ?, ?, ?, ?, ?, ?)";
-        $statement = $conn->prepare($sql);
-        $statement->bind_param('sssisss', $id, $first_name, $last_name, $age, $occupation, $voiced_by, $image_url);
-        $statement->execute();
+    //check connection
+    if ($conn->connect_error) {
+        die("Contection failed: " . $conn->connect_error);
     }
 
-//GET USER CHECKED CHARACTERS FROM DB AND DISPLAY
+    //GET USER CHECKED CHARACTERS FROM DB AND DISPLAY
     if (isset($_GET['character'])) {
 
         $selected = [];
