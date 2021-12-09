@@ -1,5 +1,9 @@
 <!doctype html>
 <html lang="en>">
+<!-- Graham Kaye
+     Last Updated Dec. 8, 2021
+     DGL 123
+     Final Project -->
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="device-width, initial-scale=1">
@@ -14,7 +18,6 @@
     </a>
 </header>
 
-<!-- MAIN HTML CONTENT-->
 <div id="content" class="site-content">
     <div id="primary" class="content-area">
         <div id="main" class="site-main">
@@ -75,6 +78,7 @@
 include 'info.php';
 checkconn($conn);
 ifchecked($character);
+
  ?>
 
                     </ul> 
